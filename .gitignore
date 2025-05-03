@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# Môi trường & config
+.env
+.env.local
+.env.*.local
+
+# Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+dist/
+build/
+
+# IDE/editor
+.vscode/
+.idea/
+.DS_Store
