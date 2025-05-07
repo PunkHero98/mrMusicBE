@@ -1,6 +1,8 @@
+import { Router } from "express";
+import userRouter from "./user.route.js";
 
-function route(app){
-    // app.use('/');
-};
+const RootRouter = Router();
 
-export default route;
+RootRouter.use("/users", userRouter);
+
+export default RootRouter;
