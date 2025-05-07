@@ -48,7 +48,6 @@ const userController = {
       if (existingUser) {
         return res.status(400).json({ message: "Email already exists" });
       }
-
       const hashPassword = await bcrypt.hash(password, 10);
       if (!hashPassword) {
         return res.status(400).json({ message: "Hash password failed" });
