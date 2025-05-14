@@ -1,12 +1,9 @@
-import { Router } from "express";
+import express from "express";
 import userController from "../controllers/user.controller.js";
 
-const userRouter = Router();
+const router = express.Router();
 
-userRouter.get("/", userController.getAll);
-userRouter.get("/:id", userController.getById);
+router.get("/", userController.getAll);
+router.get("/:id", userController.getById);
 
-userRouter.post("/signup", userController.signUp);
-userRouter.post("/login", userController.login);
-
-export default userRouter;
+export default router;

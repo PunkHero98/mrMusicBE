@@ -1,5 +1,4 @@
 import userModel from "../models/user.model.js";
-import bcrypt from "bcrypt";
 
 const userController = {
   getAll: async (req, res) => {
@@ -31,68 +30,6 @@ const userController = {
         .json({ message: "Get user successfully", user: user, success: true });
     } catch (error) {
       console.error("Error fetching user by ID:", error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  },
-
-  signUp: async (req, res) => {
-    try {
-      const { username, email, password } = req.body;
-      if (!username || !email || !password) {
-        return res.status(400).json({ message: "Please fill all fields" });
-      }
-      const existingUser = await userModel.findOne({ email });
-      console.log(existingUser);
-      if (existingUser) {
-        return res.status(400).json({ message: "Email already exists" });
-      }
-      const hashPassword = await bcrypt.hash(password, 10);
-      if (!hashPassword) {
-        return res.status(400).json({ message: "Hash password failed" });
-      }
-      const user = userModel({
-        username: username,
-        email: email,
-        password: hashPassword,
-      });
-
-      await user.save();
-      if (!user) {
-        return res.status(400).json({ message: "Create user failed" });
-      }
-      res.status(200).json({
-        message: "Create user successfully",
-        user: user,
-        success: true,
-      });
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  },
-
-  login: async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      if (!username || !password) {
-        return res.status(400).json({ message: "Please fill all fields" });
-      }
-      const user = await userModel.findOne({ username });
-      if (!user) {
-        return res.status(400).json({ message: "Username not found" });
-      }
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(400).json({ message: "Invalid password" });
-      }
-      const { password: _, ...userWithoutPassword } = user._doc;
-      res.status(200).json({
-        message: "Login successfully",
-        user: userWithoutPassword,
-        success: true,
-      });
-    } catch (error) {
-      console.error("Error logging in:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   },
